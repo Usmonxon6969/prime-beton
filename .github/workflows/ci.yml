@@ -1,0 +1,21 @@
+name: ci
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env: {POSTGRES_USER: daybook, POSTGRES_PASSWORD: daybook, POSTGRES_DB: daybook_test}
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U daybook" --health-interval 5s --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: pip install -r backend/requirements-dev.txt
+      - name: tests on SQLite
+        run: cd backend && python -m pytest -q
+      - name: tests on PostgreSQL
+        run: cd backend && TEST_DATABASE_URL=postgresql+psycopg://daybook:daybook@localhost:5432/daybook_test python -m pytest -q

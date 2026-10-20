@@ -1,0 +1,31 @@
+/* Selectable colour themes. Each one redefines the same tokens as theme.css; "light" (Prime) and "dark" (Tungi) live in theme.css. */
+:root[data-theme="okean"]{
+  --surface-100:#eaf2f9; --surface-200:#ffffff; --ink:#0b1f33; --ink-muted:#4f6579; --line:#c9dbea; --line-strong:#7490a8;
+  --azurite:#0b5cad; --azurite-deep:#084a8c; --azurite-tint:#d8e9f8; --on-azurite:#ffffff; --concrete:#8fa7bb;
+  --rebar:#c2410c; --success:#1f7a4a; --warning:#8a5300; --danger:#b42318;
+  --hover-fill:#084a8c; --on-hover-fill:#ffffff; --hero:#0b3d6e; --on-hero:#ffffff;
+}
+:root[data-theme="orman"]{
+  --surface-100:#e9f3ec; --surface-200:#ffffff; --ink:#10261a; --ink-muted:#516a5a; --line:#c8dccd; --line-strong:#76927f;
+  --azurite:#1b6b42; --azurite-deep:#135232; --azurite-tint:#d6ebdc; --on-azurite:#ffffff; --concrete:#8fa898;
+  --rebar:#c2410c; --success:#1f7a4a; --warning:#8a5300; --danger:#b42318;
+  --hover-fill:#135232; --on-hover-fill:#ffffff; --hero:#124a2e; --on-hero:#ffffff;
+}
+:root[data-theme="binafsha"]{
+  --surface-100:#f0ecf9; --surface-200:#ffffff; --ink:#1d1533; --ink-muted:#5e5679; --line:#d9d1ec; --line-strong:#8a80a8;
+  --azurite:#5b32c4; --azurite-deep:#46239f; --azurite-tint:#e5ddf8; --on-azurite:#ffffff; --concrete:#a094bd;
+  --rebar:#c2410c; --success:#1f7a4a; --warning:#8a5300; --danger:#b42318;
+  --hover-fill:#46239f; --on-hover-fill:#ffffff; --hero:#3b1d84; --on-hero:#ffffff;
+}
+:root[data-theme="okean"] .toast,:root[data-theme="orman"] .toast,:root[data-theme="binafsha"] .toast{background:var(--azurite-deep);color:#fff}
+
+/* theme picker */
+.thpick{position:fixed;z-index:80;width:min(320px,calc(100vw - 32px));background:var(--surface-200);color:var(--ink);border:1px solid var(--line-strong);border-radius:var(--radius-lg);box-shadow:0 12px 32px rgba(0,0,0,.22);padding:12px}
+.thpick h3{font:700 13px/18px var(--f-body);margin:0 0 10px}
+.thpick .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.thpick button{display:flex;flex-direction:column;gap:6px;align-items:stretch;padding:6px;background:transparent;color:var(--ink);border:1px solid var(--line);border-radius:var(--radius-md);font:600 12px/16px var(--f-body);cursor:pointer;text-align:center}
+.thpick button:hover{border-color:var(--line-strong)}
+.thpick button[aria-pressed="true"]{border-color:var(--azurite);box-shadow:0 0 0 2px var(--azurite)}
+.thpick .sw{display:flex;height:34px;border-radius:2px;overflow:hidden;border:1px solid rgba(128,128,128,.35)}
+.thpick .sw i{flex:1}
+.thpick .sw i:first-child{flex:2}

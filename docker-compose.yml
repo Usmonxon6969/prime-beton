@@ -1,0 +1,112 @@
+name: prime-stroy        # fixed project name: the data volume is then always "prime-stroy_dbdata", whatever the folder is called
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-daybook}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: ${POSTGRES_DB:-daybook}
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-daybook}"]
+      interval: 5s
+      retries: 10
+
+  api:
+    build: ./backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-daybook}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-daybook}
+      SECRET_KEY: ${SECRET_KEY:?set SECRET_KEY in .env}
+      SEED_DEMO_USERS: ${SEED_DEMO_USERS:-false}
+      ADMIN_USERNAME: ${ADMIN_USERNAME:-admin}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      GEMINI_MODEL: ${GEMINI_MODEL:-gemini-3.8-flash}
+      AI_PROVIDER: ${AI_PROVIDER:-auto}
+      AI_MODEL: ${AI_MODEL:-claude-sonnet-5-5}
+      AI_COMPANY: ${AI_COMPANY:-}
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN:-}
+      TELEGRAM_BOT_USERNAME: ${TELEGRAM_BOT_USERNAME:-}
+      FRONTEND_DIR: /srv/frontend
+      REQUIRE_2FA_ROLES: ${REQUIRE_2FA_ROLES:-}
+      BANK_ALLOW_NEGATIVE: ${BANK_ALLOW_NEGATIVE:-false}
+      FORWARDED_ALLOW_IPS: ${FORWARDED_ALLOW_IPS:-127.0.0.1}
+    volumes:
+      - ./frontend:/srv/frontend:ro
+    ports:
+      - "${API_BIND:-0.0.0.0}:${API_PORT:-8000}:8000"
+
+  # Telegram bot (optional): set TELEGRAM_BOT_TOKEN in .env, then "docker compose --profile telegram up -d".
+  # It only calls out to Telegram; no port is opened. Users link their chat in the web app (Security -> Telegram).
+  bot:
+    profiles: ["telegram"]
+    build: ./backend
+    restart: unless-stopped
+    command: ["python", "-m", "app.telegram_bot"]
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-daybook}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-daybook}
+      SECRET_KEY: ${SECRET_KEY:?set SECRET_KEY in .env}
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN:-}
+      TELEGRAM_BOT_USERNAME: ${TELEGRAM_BOT_USERNAME:-}
+      TELEGRAM_ALERT_MINUTES: ${TELEGRAM_ALERT_MINUTES:-30}
+      TELEGRAM_DIGEST_HOUR: ${TELEGRAM_DIGEST_HOUR:-18}
+      TELEGRAM_UTC_OFFSET: ${TELEGRAM_UTC_OFFSET:-5}
+      TELEGRAM_SEND_BACKUPS: ${TELEGRAM_SEND_BACKUPS:-true}
+    volumes:
+      - ./backups:/backups:ro                     # to send each verified, encrypted backup to the admins
+
+  # Database backup into ./backups every BACKUP_EVERY_HOURS (6), kept BACKUP_KEEP_DAYS (14).
+  # With BACKUP_PASSPHRASE set the files are AES-256 encrypted. Every backup is test-restored right after it is made.
+  # Status: backups/last-restore-check.txt (OK) or backups/BACKUP_FAILED.txt (problem). Steps: docs/security.md
+  backup:
+    build:
+      context: ./ops
+      dockerfile: Dockerfile.backup
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      PGPASSWORD: ${POSTGRES_PASSWORD}
+      PGUSER: ${POSTGRES_USER:-daybook}
+      PGDATABASE: ${POSTGRES_DB:-daybook}
+      PGHOST: db
+      BACKUP_PASSPHRASE: ${BACKUP_PASSPHRASE:-}
+      BACKUP_KEEP_DAYS: ${BACKUP_KEEP_DAYS:-14}
+      BACKUP_EVERY_HOURS: ${BACKUP_EVERY_HOURS:-6}
+    volumes:
+      - ./backups:/backups
+      - ./ops:/ops:ro
+    entrypoint: ["sh", "/ops/backup.sh"]
+
+  # HTTPS (optional): docker compose --profile https up -d   (needs DOMAIN in .env, ports 80/443 open).
+  # Then also set API_BIND=127.0.0.1 and FORWARDED_ALLOW_IPS=* so that only Caddy can reach the app.
+  caddy:
+    image: caddy:2-alpine
+    profiles: ["https"]
+    restart: unless-stopped
+    depends_on:
+      - api
+    environment:
+      DOMAIN: ${DOMAIN:-localhost}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./ops/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddydata:/data
+
+volumes:
+  dbdata:
+  caddydata:

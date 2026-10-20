@@ -1,0 +1,3 @@
+watchMsgs();
+applyLang();
+boot();

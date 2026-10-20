@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+.venv/
+.env
+*.db
+.pytest_cache/
+node_modules/
+
+# local / secrets
+.env
+*.db
+backups/*
+!backups/.gitkeep
+*.zip
+.DS_Store
+*.bak

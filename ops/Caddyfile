@@ -1,0 +1,12 @@
+# HTTPS in front of the app. Certificates are issued and renewed automatically (Let's Encrypt).
+# Needs: DOMAIN in .env pointing (DNS A record) to this server, ports 80 and 443 open.
+{$DOMAIN} {
+	encode zstd gzip
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "same-origin"
+		-Server
+	}
+	reverse_proxy api:8000
+}

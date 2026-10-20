@@ -1,0 +1,48 @@
+/* Phones: every table becomes a list of cards (cards.js copies each column title onto its cells). */
+@media (max-width:640px){
+  main table.cardy{display:block;width:100%;border:0}
+  main table.cardy thead{display:none}
+  main table.cardy tbody,main table.cardy tfoot{display:grid;gap:10px}
+  main table.cardy tr{display:grid;gap:6px;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+  main table.cardy tfoot tr{background:var(--bg)}
+  main table.cardy td{display:flex;justify-content:space-between;align-items:baseline;gap:14px;padding:0;border:0;white-space:normal!important;text-align:right;min-width:0;overflow-wrap:anywhere}
+  main table.cardy td::before{content:attr(data-label);flex:none;max-width:46%;text-align:left;font-size:12px;color:var(--ink2);font-weight:500}
+  main table.cardy td[data-label=""]::before,main table.cardy td:not([data-label])::before{content:none}
+  main table.cardy td:empty{display:none}
+  main table.cardy td{background:transparent!important}
+  main table.cardy td.act{justify-content:flex-end;position:static;width:auto;box-shadow:none;order:-1;margin:-4px -4px 0 0}
+  main table.cardy td input,main table.cardy td select{max-width:62%}
+  main table.cardy tr.is-deleted{opacity:.6}
+  main table.cardy td[colspan]{display:block;text-align:left}
+  main table.cardy td[colspan]::before{content:none}
+  main .scroll,main [style*="overflow-x:auto"]{overflow-x:visible!important}
+}
+
+/* ---- shell: the logo stays put at the top of the sidebar (same height and line as the top bar); the user panel sits in the top bar ---- */
+@media (min-width:960px){
+  .side .sbrand{position:sticky;top:0;z-index:2;display:flex;align-items:center;box-sizing:border-box;height:calc(var(--hh) + 1px);flex:none;margin:0 -10px 4px;padding:0 20px;background:var(--surface-200);border-bottom:1px solid var(--line)}
+  .side .sbrand:hover{background:var(--surface-200)}
+  .tools .me{display:flex;align-items:center;gap:8px;margin:0 0 0 8px;padding:0 0 0 12px;border:0;border-left:1px solid var(--line);flex:none}
+  .tools .me .av{width:34px;height:34px;border-radius:50%;background:var(--azurite-tint);color:var(--azurite);display:grid;place-items:center;font:600 12px var(--f-body);flex:none}
+  .tools .me .who b{display:block;color:var(--ink);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .tools .me .who span{display:block;color:var(--ink-muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .tools .me .ibtn{color:var(--ink-muted)}.tools .me .ibtn:hover{background:var(--hl);color:var(--ink)}
+  .tools .me .who{flex:0 1 auto;min-width:0;max-width:160px}
+  .tools .me .who b{font-size:13px;line-height:16px}
+  .tools .me .who span{font-size:11.5px;line-height:14px}
+  .tools .me .ibtn{width:34px;height:34px}
+  .tools .me #themebtn2{display:none}
+}
+@media (min-width:960px) and (max-width:1199px){.tools .me .who{display:none}.tools .cmdbtn{min-width:150px}}
+
+/* ---- dashboard: greeting on the left, a large clock card on the right ---- */
+.bz-hero{grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:var(--space-4,16px) var(--space-8,32px)}
+.bz-hero .bz-hi{display:grid;gap:var(--space-2,8px);min-width:0}
+.bz-clock{display:grid;gap:4px;justify-items:end;text-align:right;min-width:min(300px,100%);padding:16px 22px 14px;border:1px solid rgba(255,255,255,.22);border-radius:var(--radius-md,12px);background:rgba(255,255,255,.08);color:var(--on-hero,#fff)}
+.bz-clock .live{padding:0;margin:0;font-size:12.5px;color:rgba(255,255,255,.82)}
+.bz-clock .live span{color:rgba(255,255,255,.82)}
+.bz-clock .live i{background:#8be0b0}
+.bz-clock b{font:600 clamp(34px,4.4vw,52px)/1.05 var(--f-mono);letter-spacing:.01em;font-variant-numeric:tabular-nums;color:var(--on-hero,#fff)}
+.bz-clock .bz-date{font-size:14px;color:rgba(255,255,255,.82)}
+@media (max-width:759px){.bz-hero{grid-template-columns:minmax(0,1fr)}.bz-clock{justify-items:start;text-align:left;min-width:0;width:100%}}
+.bz-clock .live{display:inline-flex}
