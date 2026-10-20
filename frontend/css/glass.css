@@ -1,0 +1,137 @@
+/* Glass themes: "muzli" (Muzli beton — light frosted concrete) and "smena" (Tungi smena — dark, warm plant lights).
+   Loaded last. Only re-skins: tokens, a fixed background layer behind the page, and translucent blurred surfaces.
+   Layout, spacing and markup stay exactly as in the other themes. */
+
+/* ---------- tokens: Muzli beton ---------- */
+:root[data-theme="muzli"]{
+  --surface-100:rgba(232,234,233,.9); --surface-200:rgba(250,251,251,.55); --ink:#121416; --ink-muted:#4e555b;
+  --line:rgba(18,20,22,.11); --line-strong:rgba(18,20,22,.3);
+  --azurite:#121416; --azurite-deep:#2a2d31; --azurite-tint:rgba(18,20,22,.07); --on-azurite:#ffffff; --concrete:#8f969c;
+  --rebar:#d2531c; --success:#13703f; --warning:#9a5a00; --danger:#b4271b;
+  --hover-fill:#2a2d31; --on-hover-fill:#ffffff; --hero:#121416; --on-hero:#ffffff;
+  --radius-sm:8px; --radius-md:16px; --radius-lg:20px;
+  --f-body:Geologica,Manrope,"Segoe UI",system-ui,-apple-system,sans-serif;
+  --f-display:Geologica,Manrope,system-ui,sans-serif;
+  --f-num:Geologica,Manrope,system-ui,sans-serif; --num-w:400;
+  --glass-blur:26px; --glass-sat:1.5; --glass-edge:rgba(255,255,255,.72);
+  --glass-shadow:inset 0 1px 0 rgba(255,255,255,.65),0 18px 40px -24px rgba(30,36,40,.45);
+  --glass-pop:rgba(248,249,249,.86); --glass-field:rgba(255,255,255,.58); --solid:#eceeed;
+  --toast:#121416; --toast-ink:#ffffff;
+  color-scheme:light;
+  background:
+    radial-gradient(60% 50% at 84% 14%,rgba(210,83,28,.26),transparent 70%),
+    radial-gradient(45% 45% at 10% 90%,rgba(120,132,140,.5),transparent 70%),
+    linear-gradient(160deg,#e4e6e5 0%,#c9cecd 55%,#b9bfbf 100%);
+  background-color:#cfd3d2; background-attachment:fixed;
+}
+/* ---------- tokens: Tungi smena ---------- */
+:root[data-theme="smena"]{
+  --surface-100:rgba(18,17,16,.9); --surface-200:rgba(24,23,22,.5); --ink:#f1ede6; --ink-muted:#b3ab9f;
+  --line:rgba(255,236,210,.1); --line-strong:rgba(255,236,210,.26);
+  --azurite:#ffb25e; --azurite-deep:#ffc98b; --azurite-tint:rgba(255,178,94,.13); --on-azurite:#1a1209; --concrete:#6b645b;
+  --rebar:#ffb25e; --success:#7fd49b; --warning:#ffc56e; --danger:#ff8a78;
+  --hover-fill:#ffc98b; --on-hover-fill:#1a1209; --hero:rgba(255,178,94,.12); --on-hero:#f1ede6;
+  --radius-sm:6px; --radius-md:12px; --radius-lg:14px;
+  --f-body:"Golos Text",Manrope,"Segoe UI",system-ui,-apple-system,sans-serif;
+  --f-display:Tektur,"Golos Text",system-ui,sans-serif;
+  --f-num:Tektur,"Golos Text",system-ui,sans-serif; --num-w:600;
+  --glass-blur:22px; --glass-sat:1.25; --glass-edge:rgba(255,236,210,.11);
+  --glass-shadow:inset 0 1px 0 rgba(255,220,170,.08),0 24px 60px -30px rgba(0,0,0,.9);
+  --glass-pop:rgba(28,26,24,.88); --glass-field:rgba(255,236,210,.045); --solid:#16140f;
+  --toast:#2a2420; --toast-ink:#f1ede6;
+  color-scheme:dark;
+  background:
+    radial-gradient(38% 46% at 18% 4%,rgba(255,158,61,.38),transparent 72%),
+    radial-gradient(30% 40% at 94% 62%,rgba(255,120,40,.26),transparent 70%),
+    radial-gradient(50% 60% at 60% 112%,rgba(80,96,120,.32),transparent 70%);
+  background-color:#0b0c0e; background-attachment:fixed;
+}
+
+/* ---------- background layer ---------- */
+:root[data-theme="muzli"] body,:root[data-theme="smena"] body{background:transparent;font-family:var(--f-body)}
+:root[data-theme="muzli"] body::before,:root[data-theme="smena"] body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none}
+/* the logo's slanted bars, large and soft, with a concrete grain on top */
+:root[data-theme="muzli"] body::before{
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .47 0 0 0 0 .48 0 0 0 .28 0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 140'%3E%3Cpath fill='%2323272b' fill-opacity='.3' fill-rule='evenodd' d='M0 0H140V140H0Z M25 11.25L41.25 20V128.75L25 120Z M49.25 25L65.75 33.75V88.75L49.25 97.5Z M73.25 20L89.5 11.25V120L73.25 128.75Z M97.75 43L114.25 51.75V106.25L97.75 115Z'/%3E%3C/svg%3E") no-repeat right -8vw top 26vh/min(66vw,860px) auto,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 140'%3E%3Cpath fill='%2323272b' fill-opacity='.12' fill-rule='evenodd' d='M0 0H140V140H0Z M25 11.25L41.25 20V128.75L25 120Z M49.25 25L65.75 33.75V88.75L49.25 97.5Z M73.25 20L89.5 11.25V120L73.25 128.75Z M97.75 43L114.25 51.75V106.25L97.75 115Z'/%3E%3C/svg%3E") no-repeat left -16vw bottom -22vh/52vw auto;
+}
+/* casting-bed rails, two lamps and a hollow-core slab section at the bottom */
+:root[data-theme="smena"] body::before{
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 220'%3E%3Cpath fill='%23ffecd2' fill-opacity='.06' fill-rule='evenodd' d='M0 0h1200v220H0Z M30 110a70 70 0 1 0 140 0a70 70 0 1 0-140 0Z M230 110a70 70 0 1 0 140 0a70 70 0 1 0-140 0Z M430 110a70 70 0 1 0 140 0a70 70 0 1 0-140 0Z M630 110a70 70 0 1 0 140 0a70 70 0 1 0-140 0Z M830 110a70 70 0 1 0 140 0a70 70 0 1 0-140 0Z M1030 110a70 70 0 1 0 140 0a70 70 0 1 0-140 0Z'/%3E%3C/svg%3E") no-repeat left 26vw bottom -60px/min(70vw,1100px) auto,
+    repeating-linear-gradient(90deg,transparent 0 139px,rgba(255,220,170,.045) 139px 140px);
+}
+
+/* ---------- glass surfaces ---------- */
+:root:is([data-theme="muzli"],[data-theme="smena"]) :is(.top,body.app .side,.doctabs,.panel,.fcard,.bt,.cta,.slip,.kpis,.bz-sum,.loginform,.plant,.rplist,.mt-frame,.dt-chip,.ledger){
+  background:var(--surface-200);
+  -webkit-backdrop-filter:blur(var(--glass-blur)) saturate(var(--glass-sat));
+  backdrop-filter:blur(var(--glass-blur)) saturate(var(--glass-sat));
+  border-color:var(--glass-edge);
+  box-shadow:var(--glass-shadow);
+}
+:root:is([data-theme="muzli"],[data-theme="smena"]) :is(.menu,.pk,.pop,.cbox,.xbox,.thpick,.mt-mpop){
+  background:var(--glass-pop);
+  -webkit-backdrop-filter:blur(30px) saturate(1.4);
+  backdrop-filter:blur(30px) saturate(1.4);
+  border-color:var(--glass-edge);
+  box-shadow:var(--glass-shadow),0 20px 50px -18px rgba(0,0,0,.4);
+}
+/* the side bar and the header keep their full-bleed placement; only a hairline edge separates them */
+:root:is([data-theme="muzli"],[data-theme="smena"]) .top{box-shadow:none;border-bottom-color:var(--line)}
+:root:is([data-theme="muzli"],[data-theme="smena"]) body.app .side{box-shadow:none;border-right:1px solid var(--line)}
+:root:is([data-theme="muzli"],[data-theme="smena"]) .side .sbrand{background:transparent;border-bottom-color:var(--line)}
+:root:is([data-theme="muzli"],[data-theme="smena"]) .doctabs{box-shadow:none;border-bottom-color:var(--line)}
+:root:is([data-theme="muzli"],[data-theme="smena"]) .dtab{background:var(--glass-field)}
+:root:is([data-theme="muzli"],[data-theme="smena"]) .dtab.on{background:var(--surface-200)}
+/* the greeting band: smoked glass in Muzli, warm glass in Smena */
+:root:is([data-theme="muzli"],[data-theme="smena"]) .bz-hero{
+  background:var(--hero-glass);
+  -webkit-backdrop-filter:blur(var(--glass-blur)) saturate(var(--glass-sat));
+  backdrop-filter:blur(var(--glass-blur)) saturate(var(--glass-sat));
+  border:1px solid var(--glass-edge);box-shadow:var(--glass-shadow);
+}
+:root[data-theme="muzli"]{--hero-glass:rgba(18,20,22,.74)}
+:root[data-theme="smena"]{--hero-glass:linear-gradient(120deg,rgba(255,170,80,.14),rgba(24,23,22,.5) 55%)}
+:root[data-theme="smena"] :is(.bz-hero p,.bz-hero .live,.bz-hero .live span){color:var(--ink-muted)}
+:root[data-theme="smena"] body .bzc .we-bg{fill:var(--line)}
+/* tiles separated by hairlines instead of a painted gap */
+:root:is([data-theme="muzli"],[data-theme="smena"]) :is(.kpis,.bz-sum){gap:0}
+:root:is([data-theme="muzli"],[data-theme="smena"]) :is(.kpi,.bz-sum>div){background:transparent;box-shadow:1px 1px 0 var(--line)}
+/* anything that sits over scrolled content needs a solid ground */
+:root:is([data-theme="muzli"],[data-theme="smena"]) :is(.stk td:first-child,.stk th:first-child){background:var(--solid)}
+@media (max-width:700px){:root:is([data-theme="muzli"],[data-theme="smena"]) .scroll td.act{background:var(--solid)}}
+:root:is([data-theme="muzli"],[data-theme="smena"]) :is(.mt-frame:fullscreen,#pdfv){background:var(--solid)}
+:root:is([data-theme="muzli"],[data-theme="smena"]) thead th{background:var(--surface-100)}
+:root:is([data-theme="muzli"],[data-theme="smena"]) :is(input[type=text],input[type=password],input[type=search],input[type=date],input[type=datetime-local],input[type=number],input[type=email],select,textarea,.cmdbtn,.seg){background:var(--glass-field)}
+:root[data-theme="smena"] select option{background:#1c1a17;color:var(--ink)}
+:root:is([data-theme="muzli"],[data-theme="smena"]) tbody tr:hover td{background:var(--azurite-tint)}
+:root:is([data-theme="muzli"],[data-theme="smena"]) .bzc .we-bg{fill:var(--azurite-tint);opacity:1}
+:root:is([data-theme="muzli"],[data-theme="smena"]) .bar{background:var(--azurite-tint)}
+:root:is([data-theme="muzli"],[data-theme="smena"]) .toast{background:var(--toast);color:var(--toast-ink);border:1px solid var(--line-strong)}
+:root:is([data-theme="muzli"],[data-theme="smena"]) .xmodal,:root:is([data-theme="muzli"],[data-theme="smena"]) #cmdk{-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+
+/* ---------- figures ---------- */
+:root:is([data-theme="muzli"],[data-theme="smena"]) :is(.bt .v,.kpi .val,.fcard b,.bz-sum b,.akl b,.bl .r1 b,.mt-k b){font-family:var(--f-num);font-weight:var(--num-w)}
+:root[data-theme="muzli"] :is(.bt .v,.kpi .val){letter-spacing:-.03em}
+:root[data-theme="smena"] :is(.bz-hero h1,.dhead h1,.sbrand,.brand){font-family:var(--f-display);letter-spacing:0}
+:root[data-theme="muzli"] :is(.bz-hero h1,.dhead h1){font-weight:500;letter-spacing:-.025em}
+
+/* ---------- navigation ---------- */
+:root[data-theme="muzli"] .side a[aria-current="page"]{background:var(--azurite);color:var(--on-azurite)}
+:root[data-theme="muzli"] .side a[aria-current="page"] svg{color:var(--on-azurite)}
+:root[data-theme="muzli"] .side a::before{display:none}
+:root[data-theme="smena"] .side a[aria-current="page"]{background:var(--azurite-tint);color:var(--azurite);box-shadow:inset 0 0 0 1px rgba(255,178,94,.28)}
+:root[data-theme="smena"] .side a[aria-current="page"] svg{color:var(--azurite)}
+:root[data-theme="smena"] .side a::before{display:none}
+:root[data-theme="smena"] .bt .lb svg,:root[data-theme="smena"] .live i{color:var(--azurite)}
+
+/* the thin highlight along the top edge of dark glass */
+:root[data-theme="smena"] :is(.panel,.bt,.bz-hero,.fcard,.loginform)::after{content:"";position:absolute;left:12%;right:12%;top:-1px;height:1px;pointer-events:none;background:linear-gradient(90deg,transparent,rgba(255,210,150,.45),transparent)}
+:root[data-theme="smena"] :is(.panel,.bt,.fcard,.loginform){position:relative}
+
+@media (prefers-reduced-transparency:reduce){
+  :root:is([data-theme="muzli"],[data-theme="smena"]){--surface-200:var(--solid);--glass-pop:var(--solid);--glass-field:var(--solid)}
+}

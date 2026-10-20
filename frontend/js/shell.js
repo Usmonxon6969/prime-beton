@@ -2,7 +2,7 @@
 function effTheme(){var a=document.documentElement.getAttribute('data-theme');return a||(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')}
 function themeIcon(){$('#themebtn').innerHTML=svgi(NI.palette||NI.moon);var l=lang==='ru'?'Тема':lang==='uz'?'Mavzu':'Theme';$('#themebtn').setAttribute('aria-label',l);$('#themebtn').title=l}
 $('#themebtn').addEventListener('click',function(){var n=effTheme()==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);try{localStorage.setItem('daybook-theme',n)}catch(e){}themeIcon();if(location.hash==='#dashboard'){drawDaily();renderBiz()}});
-try{var th=localStorage.getItem('daybook-theme');if(/^(dark|light|okean|orman|binafsha)$/.test(th))document.documentElement.setAttribute('data-theme',th)}catch(e){}
+try{var th=localStorage.getItem('daybook-theme');if(/^(dark|light|okean|orman|binafsha|muzli|smena)$/.test(th))document.documentElement.setAttribute('data-theme',th)}catch(e){}
 
 /* shell */
 $('#hamb').addEventListener('click',function(){var o=!document.body.classList.contains('nav-open');document.body.classList.toggle('nav-open',o);this.setAttribute('aria-expanded',String(o));$('#scrim').hidden=!o});

@@ -1,10 +1,12 @@
-/* Colour themes: the header theme button opens a picker. 'light' = Prime, 'dark' = Tungi (see theme.css); the rest are in themes.css. */
+/* Colour themes: the header theme button opens a picker. 'light' = Prime, 'dark' = Tungi (see theme.css); okean/orman/binafsha are in themes.css; the glass themes muzli/smena are in glass.css. */
 var THEMES=[
  {id:'light',n:['Prime','Prime','Prime'],c:['#f1f2f3','#ffffff','#0f1012']},
  {id:'okean',n:['Ocean','Океан','Okean'],c:['#eaf2f9','#ffffff','#0b5cad']},
  {id:'orman',n:['Forest','Лес','O‘rmon'],c:['#e9f3ec','#ffffff','#1b6b42']},
  {id:'binafsha',n:['Violet','Фиалка','Binafsha'],c:['#f0ecf9','#ffffff','#5b32c4']},
- {id:'dark',n:['Night','Ночь','Tungi'],c:['#0e0f11','#17191c','#f2f3f4']}
+ {id:'dark',n:['Night','Ночь','Tungi'],c:['#0e0f11','#17191c','#f2f3f4']},
+ {id:'muzli',n:['Frosted concrete','Морозный бетон','Muzli beton'],c:['#c9cecd','#eef0ef','#121416'],glass:1},
+ {id:'smena',n:['Night shift','Ночная смена','Tungi smena'],c:['#0b0c0e','#3a2a18','#ffb25e'],glass:1}
 ];
 (function(){
   var ttl=['Theme','Тема','Mavzu'];
